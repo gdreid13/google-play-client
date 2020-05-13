@@ -9,6 +9,7 @@ class App extends Component {
       apps: [],
       search: '',
       sort: '',
+      genres: '',
       error: null,
     }
   }
@@ -25,6 +26,12 @@ class App extends Component {
     });
   }
 
+  setGenre(genres) {
+    this.setState({
+      genres
+    })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const baseUrl = 'http://localhost:8100/apps';
@@ -34,6 +41,9 @@ class App extends Component {
     }
     if (this.state.sort) {
       params.push(`sort=${this.state.sort}`);
+    }
+    if (this.state.genres) {
+      params.push(`genres=${this.state.genres}`);
     }
     const query = params.join('&');
     const url = `${baseUrl}?${query}`;
@@ -81,6 +91,16 @@ class App extends Component {
                 <option value="">None</option>
                 <option value="App">Name</option>
                 <option value="Rating">Rating</option>
+              </select>
+              <label htmlFor = "genre">Genre: </label>
+              <select id="genre" name="genre" onChange={e=>this.setGenre(e.target.value)}>
+                <option value="">None</option>
+                <option value="Action">Action</option>
+                <option value="Puzzle">Puzzle</option>
+                <option value="Strategy">Strategy</option>
+                <option value="Casual">Casual</option>
+                <option value="Arcade">Arcade</option>
+                <option value="Card">Card</option>
               </select>
               <button type="submit">Search</button>
             </form>
